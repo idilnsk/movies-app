@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import Link from "next/link";
 
-export default function MovieCard({ data }) {
+export default function MovieCard({ movie, setMovies }) {
   const {
     original_title,
     overview,
@@ -9,23 +10,19 @@ export default function MovieCard({ data }) {
     release_date,
     vote_average,
     vote_count,
-  } = data;
-
+    slug,
+    id,
+  } = movie;
+  //console.log("movie", movie);
+  console.log("HOMEPAGE");
   return (
     <StyledSection>
-      <div>
-        <p className="title">Title:{original_title}</p>
-        <p className="overview">Overview:{overview}</p>
-        <p className="popularity">Popularity:{popularity}</p>
-        <p className="releaseDate">Release Date:{release_date}</p>
-        <p className="voteAverage">Vote Average:{vote_average}</p>
-        <p className="voteCount">Vote Count:{vote_count}</p>
-      </div>
-
-      <img
-        src={`https://image.tmdb.org/t/p/w500${poster_path}`}
-        alt="Movie Poster"
-      />
+      <Link href={`/movie-detail/${id}`}>
+        <img
+          src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+          alt="Movie Poster"
+        />
+      </Link>
     </StyledSection>
   );
 }
