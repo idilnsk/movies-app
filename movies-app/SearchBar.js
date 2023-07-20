@@ -8,7 +8,7 @@ export default function searchBar({ onSearchSubmit }) {
   const fetchData = async (value) => {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
-   return  fetch(
+    return fetch(
       `https://api.themoviedb.org/3/discover/movie/?api_key=${apiKey}&language=en-US&page=${currentPage}`
     )
       .then((response) => response.json())
@@ -24,13 +24,13 @@ export default function searchBar({ onSearchSubmit }) {
             })
           : [];
         console.log(results);
-        return results
+        return results;
       });
   };
   const handleChange = async (value) => {
     setSearchInput(value);
-    const searchBar= await fetchData(value);
-    onSearchSubmit(searchBar)
+    const searchBar = await fetchData(value);
+    onSearchSubmit(searchBar);
   };
 
   console.log("searchedMovies:", searchedMovies);
