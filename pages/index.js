@@ -3,7 +3,7 @@ import Navigation from "../movies-app/Navigation.js";
 import SearchBar from "@/movies-app/SearchBar";
 import { useState, useEffect } from "react";
 
-export default function MovieListPage({ movies, onPageClick, currentPage }) {
+export default function MovieListPage({ setMovies, movies, onPageClick, currentPage }) {
   const [searchedMovies, setSearchedMovies] = useState(false);
   const [moviesData, setMoviesData] = useState(false);
 
@@ -19,10 +19,10 @@ export default function MovieListPage({ movies, onPageClick, currentPage }) {
     <>
       <div>
         <h1>Movies</h1>
-        <SearchBar onSearchSubmit={onSearchSubmit} />
+        <SearchBar onSearchSubmit={setMovies} />
         <Navigation />
         <MovieList
-          movies={searchedMovies || moviesData.results}
+          movies={movies}
           onPageClick={onPageClick}
           currentPage={currentPage}
         />

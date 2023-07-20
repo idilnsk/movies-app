@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }) {
       const data = await fetch(url);
       const result = await data.json();
       console.log("RESULT", result);
-      setData(result);
+      setData(result.results);
     }
     fetchData();
   }, [currentPage, apiKey]);
@@ -50,7 +50,7 @@ export default function App({ Component, pageProps }) {
         <Component
           {...pageProps}
           movies={data}
-          setMovies={setMovies}
+          setMovies={setData}
           onPageClick={handlePaginationClick}
           currentPage={currentPage}
         />
