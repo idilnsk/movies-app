@@ -1,6 +1,13 @@
 import MovieCard from "./MovieCard";
+import Pagination from "./Pagination";
+import SearchBar from "./SearchBar";
 
-export default function MovieList({ movies, setMovies }) {
+export default function MovieList({
+  movies,
+  setMovies,
+  currentPage,
+  onPageClick,
+}) {
   console.log("data from movieiist", movies);
 
   return (
@@ -11,6 +18,11 @@ export default function MovieList({ movies, setMovies }) {
             <MovieCard movie={movie} setMovies={setMovies} />
           </li>
         ))}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={50}
+        onPageClick={onPageClick}
+      />
     </>
   );
 }

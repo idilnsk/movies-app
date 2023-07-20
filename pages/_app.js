@@ -5,7 +5,8 @@ import { GlobalStyle } from "../styles/styles.js";
 import Quiz from "../movies-app/Quiz";
 import Layout from "../movies-app/Layout.js";
 import MovieDetail from "../movies-app/MovieDetail";
-import Pagination from "./Pagination";
+import SearchBar from "../movies-app/SearchBar.js";
+import MovieCard from "@/movies-app/MovieCard.js";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -37,19 +38,23 @@ export default function App({ Component, pageProps }) {
     setCurrentPage(pageNumber);
   };
 
+ 
   //log the data, call setmovies pass in the needed props, remove the key to .env//
-
+  if (!data) {
+    return;
+  }
   return (
     <>
       <SWRConfig value={{ fetcher }}>
         <GlobalStyle />
-        <Component {...pageProps} movies={data} setMovies={setMovies} />
-        <Layout />
-        <Pagination
-          currentPage={currentPage}
-          totalPages={50}
+        <Component
+          {...pageProps}
+          movies={data}
+          setMovies={setMovies}
           onPageClick={handlePaginationClick}
+          currentPage={currentPage}
         />
+        <Layout />
       </SWRConfig>
     </>
   );
