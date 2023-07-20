@@ -6,6 +6,7 @@ export default function AllMovies({movies, setMovies }) {
     <>
       <h1>Movies</h1>
       <MovieList  movies={movies} setMovies={setMovies} />
+
     </>
   );
 }
