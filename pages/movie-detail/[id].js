@@ -6,7 +6,7 @@ export default function Slug({ movies, setMovies }) {
 
   const router = useRouter();
   const { id } = router.query;
-  const movieDetail = movies.results.find((movie) => movie.id == id);
+  const movieDetail = movies.find((movie) => movie.id == id);
 
   console.log("movieDetail", movieDetail);
   return (

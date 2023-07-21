@@ -1,15 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function searchBar({ onSearchSubmit }) {
   const [searchInput, setSearchInput] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchedMovies, setSearchedMovies] = useState([]);
-
+  console.log("currentPage", currentPage);
   const fetchData = async (value) => {
     const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
     return fetch(
-      `https://api.themoviedb.org/3/discover/movie/?api_key=${apiKey}&language=en-US&page=${currentPage}`
+      `https://api.themoviedb.org/3/search/movie?query=${value}&api_key=${apiKey}`
     )
       .then((response) => response.json())
       .then((json) => {
@@ -29,6 +29,7 @@ export default function searchBar({ onSearchSubmit }) {
   };
   const handleChange = async (value) => {
     setSearchInput(value);
+    setCurrentPage(1);
     const searchBar = await fetchData(value);
     onSearchSubmit(searchBar);
   };

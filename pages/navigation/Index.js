@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import Link from "next/link";
 
+
 export default function Navigation() {
   return (
     <StyledNavigation>
       <Link href="/"> Movies </Link>
-      <Link href="/Quiz"> Quiz </Link>
+      <Link href="/quiz"> Quiz </Link>
       <Link href="/Forum"> Forum </Link>
       <Link href="Form"> Contact Us </Link>
     </StyledNavigation>
