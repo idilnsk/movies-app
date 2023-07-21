@@ -1,9 +1,14 @@
 import MovieList from "../movies-app/MovieList";
-import Navigation from "../movies-app/Navigation.js";
 import SearchBar from "@/movies-app/SearchBar";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
-export default function MovieListPage({ setMovies, movies, onPageClick, currentPage }) {
+export default function MovieListPage({
+  setMovies,
+  movies,
+  onPageClick,
+  currentPage,
+}) {
   const [searchedMovies, setSearchedMovies] = useState(false);
   const [moviesData, setMoviesData] = useState(false);
 
@@ -18,9 +23,9 @@ export default function MovieListPage({ setMovies, movies, onPageClick, currentP
   return (
     <>
       <div>
+      
         <h1>Movies</h1>
         <SearchBar onSearchSubmit={setMovies} />
-        <Navigation />
         <MovieList
           movies={movies}
           onPageClick={onPageClick}

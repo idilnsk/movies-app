@@ -2,16 +2,15 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { SWRConfig } from "swr";
 import { GlobalStyle } from "../styles/styles.js";
-import Quiz from "../movies-app/Quiz";
 import Layout from "../movies-app/Layout.js";
 import MovieDetail from "../movies-app/MovieDetail";
 import SearchBar from "../movies-app/SearchBar.js";
 import MovieCard from "@/movies-app/MovieCard.js";
+import Navigation from "./navigation/Index.js";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function App({ Component, pageProps }) {
-  const [movies, setMovies] = useState([]);
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const apiKey = process.env.NEXT_PUBLIC_API_KEY;
@@ -38,7 +37,6 @@ export default function App({ Component, pageProps }) {
     setCurrentPage(pageNumber);
   };
 
- 
   //log the data, call setmovies pass in the needed props, remove the key to .env//
   if (!data) {
     return;
@@ -47,6 +45,7 @@ export default function App({ Component, pageProps }) {
     <>
       <SWRConfig value={{ fetcher }}>
         <GlobalStyle />
+        <Navigation />
         <Component
           {...pageProps}
           movies={data}
