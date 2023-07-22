@@ -7,7 +7,7 @@ export default function Navigation() {
     <StyledNavigation>
       <Link href="/"> Movies </Link>
       <Link href="/quiz"> Quiz </Link>
-      <Link href="/Forum"> Forum </Link>
+      <Link href="/forum"> Forum </Link>
       <Link href="Form"> Contact Us </Link>
     </StyledNavigation>
   );
