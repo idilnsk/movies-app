@@ -1,20 +1,29 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import useSWR from "swr";
+
 
 export default function Quiz() {
+  const { data: questions } = useSWR("/api/quiz");
+
+  
+  //fetch data from server router from the api/quiz folder
+  //const { data:questions, isLoading, error } = useSWR(`/api/quiz`);
   const [showResults, setShowResults] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [shuffledQuestions, setShuffledQuestions] = useState([]);
 
-  const shuffleQuestions = () => {
+  const shuffleQuestions = (questions) => {
     const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
     return shuffledQuestions.slice(0, 5); // Select the first 5 questions
   };
 
   useEffect(() => {
-    setShuffledQuestions(shuffleQuestions());
-  }, []);
+    if (questions) {
+      setShuffledQuestions(shuffleQuestions(questions));
+    }
+  }, [questions]);
 
   const handleAnswerClick = (isCorrect) => {
     if (isCorrect) {
@@ -27,8 +36,8 @@ export default function Quiz() {
       setCurrentQuestion((prevQuestion) => prevQuestion + 1);
     }
   };
-  if(shuffledQuestions.length===0){
-    return <div>loading...</div>
+  if (shuffledQuestions.length === 0) {
+    return <div>loading...</div>;
   }
   const currentQuestionData = shuffledQuestions[currentQuestion];
   return (

@@ -3,9 +3,6 @@ import useSWR from "swr";
 import { SWRConfig } from "swr";
 import { GlobalStyle } from "../styles/styles.js";
 import Layout from "../movies-app/Layout.js";
-import MovieDetail from "../movies-app/MovieDetail";
-import SearchBar from "../movies-app/SearchBar.js";
-import MovieCard from "@/movies-app/MovieCard.js";
 import Navigation from "./navigation/Index.js";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
