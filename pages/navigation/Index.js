@@ -1,23 +1,24 @@
-import styled from "styled-components";
 import Link from "next/link";
-
 
 export default function Navigation() {
   return (
-    <StyledNavigation>
-      <Link href="/"> Movies </Link>
-      <Link href="/quiz"> Quiz </Link>
-      <Link href="/forum"> Forum </Link>
-      <Link href="Form"> Contact Us </Link>
-    </StyledNavigation>
+    <div>
+      <nav>
+        <ul className=" md:flex gap-8 p-6 uppercase bg-black/10">
+          <li>
+            <Link href="/"> 🎬 Movies </Link>
+          </li>
+          <li>
+            <Link href="/quiz"> 🎮 Quiz </Link>
+          </li>
+          <li>
+            <Link href="/forum"> 💬 Forum </Link>
+          </li>
+          <li>
+            <Link href="Form"> 📞 Contact Us </Link>
+          </li>
+        </ul>
+      </nav>
+    </div>
   );
 }
-const StyledNavigation = styled.nav`
-  display: flex;
-  justify-content: center;
-  a {
-    flex: 1;
-    text-align: center;
-    margin: 0 10px;
-  }
-`;

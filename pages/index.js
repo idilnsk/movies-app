@@ -3,6 +3,7 @@ import SearchBar from "@/movies-app/SearchBar";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
+
 export default function MovieListPage({
   setMovies,
   movies,
@@ -24,7 +25,6 @@ export default function MovieListPage({
     <>
       <div>
       
-        <h1>Movies</h1>
         <SearchBar onSearchSubmit={setMovies} />
         <MovieList
           movies={movies}

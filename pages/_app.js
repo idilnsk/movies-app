@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { SWRConfig } from "swr";
-import { GlobalStyle } from "../styles/styles.js";
+import '../styles/globals.css';
 import Layout from "../movies-app/Layout.js";
 import Navigation from "./navigation/Index.js";
+
+
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -41,7 +43,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <SWRConfig value={{ fetcher }}>
-        <GlobalStyle />
+        <div />
         <Navigation />
         <Component
           {...pageProps}

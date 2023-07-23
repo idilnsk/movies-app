@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components";
 import useSWR from "swr";
-
 
 export default function Quiz() {
   const { data: questions } = useSWR("/api/quiz");
 
-  
   //fetch data from server router from the api/quiz folder
   //const { data:questions, isLoading, error } = useSWR(`/api/quiz`);
   const [showResults, setShowResults] = useState(false);
@@ -41,15 +38,16 @@ export default function Quiz() {
   }
   const currentQuestionData = shuffledQuestions[currentQuestion];
   return (
-    <StyledSection>
+    <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
       {!showResults ? (
         <div>
-          <h1>Quiz</h1>
+          <h1 className="text-3xl font-bold">Quiz</h1>
           <p>{currentQuestionData.text}</p>
-          <ul>
+          <ul className="divide-y divide-gray-300">
             {currentQuestionData.options.map((option) => (
               <li
                 key={option.id}
+                className="cursor-pointer p-2 hover:bg-gray-100"
                 onClick={() => handleAnswerClick(option.isCorrect)}
               >
                 {option.text}
@@ -59,32 +57,17 @@ export default function Quiz() {
         </div>
       ) : (
         <div>
-          <h1>Results</h1>
+          <h1 className="text-3xl font-bold">Results</h1>
           <p>You scored {score} out of 5</p>
           <p>Play again?</p>
-          <button onClick={() => window.location.reload()}>Restart</button>
+          <button
+            className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-600"
+            onClick={() => window.location.reload()}
+          >
+            Restart
+          </button>
         </div>
       )}
-    </StyledSection>
+    </div>
   );
 }
-
-const StyledSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 100%;
-  max-width: 800px;
-  height: 100%;
-  max-height: 300px;
-  margin: 2vh auto;
-  border-radius: 8px;
-  border: 2px solid #ccc;
-
-  img {
-    width: 200px;
-  }
-`;

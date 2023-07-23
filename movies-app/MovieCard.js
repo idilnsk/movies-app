@@ -16,34 +16,22 @@ export default function MovieCard({ movie, setMovies }) {
   //console.log("movie", movie);
   console.log("HOMEPAGE");
   return (
-    <StyledSection>
-      <Link href={`/movie-detail/${id}`}>
-        <img
-          src={`https://image.tmdb.org/t/p/w500${poster_path}`}
-          alt="Movie Poster"
-        />
-      </Link>
-    </StyledSection>
+    <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
+      <div>
+        <div className="flex w-1/4 flex-wrap">
+          <div className="mt-14">
+            <Link href={`/movie-detail/${id}`}>
+              <img
+                src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+                width={200}
+                height={20}
+                alt="Movie Poster"
+                className=" rounded-lg"
+              />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
-const StyledSection = styled.section`
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 100%;
-  max-width: 800px;
-  height: 100%;
-  max-height: 300px;
-  display: block;
-  margin: 2vh auto;
-  border-radius: 8px;
-  position: relative;
-  display: flex;
-  img {
-    width: 200px;
-  }
-
-  @media screen and (max-width: 800px) {
-    width: 95%;
-    max-width: 95%;
-  }
-`;

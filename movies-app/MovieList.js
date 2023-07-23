@@ -2,6 +2,7 @@ import MovieCard from "./MovieCard";
 import Pagination from "./Pagination";
 import SearchBar from "./SearchBar";
 
+
 export default function MovieList({
   movies,
   setMovies,
@@ -11,7 +12,7 @@ export default function MovieList({
   console.log("data from movieiist", movies);
 
   return (
-    <>
+      <div>
       {movies &&
         movies.map((movie) => (
           <li key={movie.slug}>
@@ -23,6 +24,6 @@ export default function MovieList({
         totalPages={50}
         onPageClick={onPageClick}
       />
-    </>
+    </div>
   );
 }
