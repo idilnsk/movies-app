@@ -4,6 +4,9 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  env:{
+    MOVIEDB_API_KEY: process.env.MOVIEDB_API_KEY
+  }
 };
 
 module.exports = nextConfig;

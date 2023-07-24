@@ -23,26 +23,27 @@ export default function MovieDetail({ movie, setMovies }) {
         <button>Back</button>
       </Link>
       <ul>
-        <li className="flex justify-between pr-20">
-          <div>
-            <p className="text-left pb-4 pr-6 font-bold">
-              Title:{original_title}
+        <li className="flex justify-between pr-20 pl-20 border border-gray-300">
+          <div >
+            <p className="text-left pb-4 pr-20">
+              <span className="font-bold">Title:</span>
+              {original_title}
             </p>
-            <p className="text-left pb-4 pr-6 font-bold">Overview:{overview}</p>
-            <p className="text-left pb-4 pr-6 font-bold">
-              Popularity:{popularity}
+            <p className="text-left pb-4 pr-6"><span className="font-bold">Overview:</span>{overview}</p>
+            <p className="text-left pb-4 pr-6"><span className="font-bold">
+              Popularity:</span>{popularity}
             </p>
-            <p className="text-left pb-4 pr-6 font-bold">
-              Release Date:{release_date}
+            <p className="text-left pb-4 pr-6"><span className="font-bold">
+              Release Date:</span>{release_date}
             </p>
-            <p className="text-left pb-4 pr-6 font-bold">
-              Vote Average:{vote_average}
+            <p className="text-left pb-4 pr-6"><span className="font-bold">
+              Vote Average:</span>{vote_average}
             </p>
-            <p className="text-left pb-4 pr-6 font-bold">
-              Vote Count:{vote_count}
+            <p className="text-left pb-4 pr-6 "><span className="font-bold">
+              Vote Count:</span>{vote_count}
             </p>
           </div>
-          <img
+          <img 
             src={`https://image.tmdb.org/t/p/w500${poster_path}`}
             alt="Movie Poster"
             width={200}
