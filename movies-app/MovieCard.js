@@ -16,18 +16,20 @@ export default function MovieCard({ movie, setMovies }) {
   //console.log("movie", movie);
   console.log("HOMEPAGE");
   return (
-    <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
+    <div className="container  lg:px-10 lg:pt-6">
       <div>
         <div className="flex w-1/4 flex-wrap">
           <div className="mt-14">
             <Link href={`/movie-detail/${id}`}>
-              <img
-                src={`https://image.tmdb.org/t/p/w500${poster_path}`}
-                width={200}
-                height={20}
-                alt="Movie Poster"
-                className=" rounded-lg"
-              />
+              <div className=" rounded-lg grid ">
+                <img
+                  src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+                  width={200}
+                  height={20}
+                  alt="Movie Poster"
+                  className=" rounded-lg  "
+                />
+              </div>
             </Link>
           </div>
         </div>

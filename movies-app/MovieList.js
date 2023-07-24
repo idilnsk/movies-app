@@ -12,7 +12,7 @@ export default function MovieList({
   console.log("data from movieiist", movies);
 
   return (
-      <div>
+      <div >
       {movies &&
         movies.map((movie) => (
           <li key={movie.slug}>
