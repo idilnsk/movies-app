@@ -12,18 +12,22 @@ export default function MovieList({
   console.log("data from movieiist", movies);
 
   return (
-      <div >
+    <div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
       {movies &&
         movies.map((movie) => (
-          <li key={movie.slug}>
+          <ul key={movie.slug}>
             <MovieCard movie={movie} setMovies={setMovies} />
-          </li>
+          </ul>
         ))}
+        </div>
+        <div className="flex justify-center mt-4">
       <Pagination
         currentPage={currentPage}
         totalPages={50}
         onPageClick={onPageClick}
       />
+    </div>
     </div>
   );
 }
