@@ -12,7 +12,7 @@ const fetcher = (...args) => fetch(...args).then((res) => res.json());
 export default function App({ Component, pageProps }) {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const apiKey = process.env.MOVIEDB_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_MOVIEDB_API_KEY;
 
   useEffect(() => {
     const url = `https://api.themoviedb.org/3/discover/movie/?api_key=${apiKey}&language=en-US&page=${currentPage}`;
