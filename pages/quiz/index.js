@@ -1,43 +1,66 @@
 import { useState, useEffect } from "react";
 import useSWR from "swr";
+import useQuizStore from "../../store/quizStore";
+import Navigation from "../navigation/Index";
 
 export default function Quiz() {
-  const { data: questions } = useSWR("/api/quiz");
+  const fetcher = url => fetch(url).then(r => r.json())
+  const { data:questions, error, isLoading } = useSWR("/api/quiz", fetcher);
 
-  //fetch data from server router from the api/quiz folder
-  //const { data:questions, isLoading, error } = useSWR(`/api/quiz`);
-  const [showResults, setShowResults] = useState(false);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(0);
-  const [shuffledQuestions, setShuffledQuestions] = useState([]);
+  //setQuestions(questions);
+  const {
+    currentQuestionIndex,
+    setCurrentQuestionIndex,
+    score,
+    incrementScore,
+    showResults,
+    setShowResults,
+    setShuffledQuestions,
+    setQuestions
+  } = useQuizStore();
 
+  //setQuestionsIndex(questions);
+
+  
+ /*  useEffect(() => {
+    if (questions) {
+      setQuestions(questions);
+      setShuffledQuestions(shuffleQuestions(questions));
+    }
+  }, [questions, setShuffledQuestions, setQuestions]); */
+  
   const shuffleQuestions = (questions) => {
     const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
     return shuffledQuestions.slice(0, 5); // Select the first 5 questions
   };
 
-  useEffect(() => {
-    if (questions) {
-      setShuffledQuestions(shuffleQuestions(questions));
-    }
-  }, [questions]);
+  if (isLoading) {
+    return <div>is loading...</div>;
+  }
 
+  if (error) {
+    return <div>Error fetching data...</div>;
+  }
+console.log("questions:",questions);
   const handleAnswerClick = (isCorrect) => {
     if (isCorrect) {
-      setScore((prevScore) => prevScore + 1);
+      incrementScore();
     }
 
-    if (currentQuestion === 4) {
+    if (currentQuestionIndex === 4) {
       setShowResults(true);
     } else {
-      setCurrentQuestion((prevQuestion) => prevQuestion + 1);
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
   };
-  if (shuffledQuestions.length === 0) {
-    return <div>loading...</div>;
-  }
-  const currentQuestionData = shuffledQuestions[currentQuestion];
+
+  const shuffledQuestions= shuffleQuestions(questions)
+  const currentQuestionData = shuffledQuestions[currentQuestionIndex];
+
+  
   return (
+    <>
+    <Navigation/>
     <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
       {!showResults ? (
         <div>
@@ -69,5 +92,6 @@ export default function Quiz() {
         </div>
       )}
     </div>
+    </>
   );
 }

@@ -22,7 +22,8 @@
     "react-dom": "18.2.0",
     "styled-components": "^6.0.4",
     "swiper": "^10.0.4",
-    "swr": "^2.2.0"
+    "swr": "^2.2.0",
+    "zustand": "^4.3.9"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
