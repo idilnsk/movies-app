@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function MovieDetail({ movie, setMovies }) {
   console.log("Movie data:", movie);
@@ -43,12 +44,11 @@ export default function MovieDetail({ movie, setMovies }) {
               Vote Count:</span>{vote_count}
             </p>
           </div>
-          <img 
+          <Image
             src={`https://image.tmdb.org/t/p/w500${poster_path}`}
             alt="Movie Poster"
             width={200}
             height={20}
-            alt="Movie Poster"
             className=" rounded-lg"
           />
         </li>

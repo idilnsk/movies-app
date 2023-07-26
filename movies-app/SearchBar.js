@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import Pagination from "./Pagination";
+import useMovieStore from "../store/movieStore";
 
-export default function searchBar({ onSearchSubmit }) {
-  const [searchInput, setSearchInput] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchedMovies, setSearchedMovies] = useState([]);
+export default function SearchBar({ onSearchSubmit }) {
+  const {setCurrentPage,currentPage,searchInput, setSearchInput, searchedMovies, setSearchedMovies}=useMovieStore();
+
 
   console.log("currentPage", currentPage);
   const fetchData = async (value) => {
@@ -29,14 +29,15 @@ export default function searchBar({ onSearchSubmit }) {
             })
           : [];
         console.log(results);
-        return results;
+        return { results, totalResults: json.total_results };
       });
   };
   const handleChange = async (value) => {
-    setSearchInput(value);
+    setSearchInput(value); //local storage
+    // localStorage.setItem("search", value);
     setCurrentPage(1);
-    const searchBar = await fetchData(value);
-    onSearchSubmit(searchBar);
+    /* const searchBar = await fetchData(value);
+    onSearchSubmit(searchBar); */
   };
 
   console.log("searchedMovies:", searchedMovies);
