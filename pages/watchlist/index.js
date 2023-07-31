@@ -16,8 +16,17 @@ export default function WatchlistPage() {
         const response = await fetch("/api/watchlist");
         if (response.ok) {
           const data = await response.json();
-          setWatchlist(data);
-          console.log(data);
+          
+          // Filter out duplicate movies based on movieId before setting the watchlist state
+          const filteredWatchlist = data.reduce((acc, item) => {
+            if (!acc.some((watchlistItem) => watchlistItem.movieId === item.movieId)) {
+              acc.push(item);
+            }
+            return acc;
+          }, []);
+          
+          setWatchlist(filteredWatchlist);
+          console.log(filteredWatchlist);
         } else {
           console.error(`Error: ${response.status}`);
         }
@@ -49,7 +58,7 @@ export default function WatchlistPage() {
       <h1>My Watchlist</h1>
       {watchlist.map((item) => (
         <WatchlistItem key={item._id} item={item} 
-        onRemoveFromWatchlist={removeFromWatchlist}/>
+        onRemoveFromWatchlist={removeFromWatchlist} watchlist={watchlist}/>
       ))}
     </div>
   );

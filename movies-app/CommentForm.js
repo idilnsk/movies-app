@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const CommentForm = ({ onAddComment,movieId, movie }) => {
+const CommentForm = ({ onAddComment,movieName, movie }) => {
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
 
@@ -11,11 +11,10 @@ const CommentForm = ({ onAddComment,movieId, movie }) => {
     const newComment = {
       name,
       comment,
-      movieId,
       movieName:movie.original_title
     };
     try {
-      const response = await fetch(`/api/comments?movieId=${movieId}`, {
+      const response = await fetch(`/api/comments?movieName=${movieName}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,8 +28,8 @@ const CommentForm = ({ onAddComment,movieId, movie }) => {
         onAddComment(savedComment.savedComment); // Update the comments with the new comment
         setName(""); // Reset the name input field
         setComment(""); // Reset the comment textarea
-        document.getElementById("comment-name").value = "";
-        document.getElementById("comment-message").value = "";
+        //document.getElementById("comment-name").value = "";
+        //document.getElementById("comment-message").value = "";
         document.getElementById("comment-name").focus();
       } else {
         console.error(`Error: ${response.status}`);

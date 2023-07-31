@@ -2,13 +2,14 @@ import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
-export default function WatchlistItem({ item,onRemoveFromWatchlist }) {
-    console.log(item); 
+export default function WatchlistItem({ item, onRemoveFromWatchlist, original_title }) {
+  console.log(item);
   const router = useRouter();
-const [movieData, setMovieData]=useState();
-const id=item.movieId;
-useEffect(() => {
+  const [movieData, setMovieData] = useState();
+  const id = item.movieId;
+  useEffect(() => {
     const fetchMovieDetails = async (externalId) => {
       const apiKey = process.env.NEXT_PUBLIC_MOVIEDB_API_KEY;
 
@@ -24,14 +25,12 @@ useEffect(() => {
     id && fetchMovieDetails(id);
   }, [id]);
 
-  
-
   const handleRemoveFromWatchlist = async () => {
     try {
-        const response = await fetch(`/api/watchlist/${movieData.id}`, {
-            method: "DELETE",
-          });
-          
+      const response = await fetch(`/api/watchlist/${movieData.id}`, {
+        method: "DELETE",
+      });
+
       if (response.ok) {
         onRemoveFromWatchlist(movieData.id);
       } else {
@@ -43,12 +42,23 @@ useEffect(() => {
   };
   if (!movieData) {
     return null;
-}
-console.log("movieData:",movieData);
+  }
+  
+  console.log("movieData:", movieData);
   return (
     <div>
       <h3>{movieData.title}</h3>
-      <Image src={movieData.poster_path} alt={movieData.title} width="200" height="300" />
+      <Link href={`/movie-detail/${id}/${original_title}`}>
+        {movieData.poster_path && (
+          <Image
+            src={`https://image.tmdb.org/t/p/w500${movieData.poster_path}`}
+            alt={movieData.title}
+            width={200}
+            height={300}
+            className="rounded-lg"
+          />
+        )}
+      </Link>
       <button onClick={handleRemoveFromWatchlist}>Remove from Watchlist</button>
     </div>
   );
