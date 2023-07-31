@@ -1,19 +1,39 @@
 import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function MovieCard({ movie, setMovies }) {
+  const [isInWatchlist, setIsInWatchlist] = useState(false);
   const {
     original_title,
-    overview,
-    popularity,
     poster_path,
-    release_date,
-    vote_average,
-    vote_count,
     id,
-    slug,
   } = movie;
+
+  const handleToggleWatchlist = async (movieId) => {
+    try {
+      const response = await fetch("/api/watchlist", {
+        method: isInWatchlist ? "DELETE" : "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          movieId:id,
+          movieTitle: original_title,
+          posterPath: `https://image.tmdb.org/t/p/w500${poster_path}`,
+        }),
+      });
+
+      if (response.ok) {
+        setIsInWatchlist((prev) => !prev); // Update the state of isInWatchlist
+      } else {
+        console.error(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error toggling watchlist:", error);
+    }
+  };
   //console.log("movie", movie);
   console.log("HOMEPAGE");
   return (
@@ -38,6 +58,9 @@ export default function MovieCard({ movie, setMovies }) {
           />
         )}
       </Link>
+      <button onClick={handleToggleWatchlist}>
+        {isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
+      </button>
     </div>
   );
 }

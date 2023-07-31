@@ -3,7 +3,6 @@ import MovieList from "../movies-app/MovieList";
 import Navigation from "./navigation/Index";
 import Layout from "@/movies-app/Layout";
 import useMovieStore from "@/store/movieStore";
-//const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function MovieListPage() {
   const { movies, currentPage, maxResults, searchInput, setMovies, setCurrentPage, setMaxResults } = useMovieStore();
