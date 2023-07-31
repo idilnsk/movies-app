@@ -7,8 +7,8 @@ export default async function handler(request, response) {
   await dbConnect(mongoURI);
   if (request.method === "GET") {
     try {
-      const { movieId } = request.query;
-      const comments = await Comment.find({ movieId });
+      const { movieName } = request.query;
+      const comments = await Comment.find({ movieName });
 
       return response.status(200).json(comments);
     } catch (error) {
@@ -17,9 +17,9 @@ export default async function handler(request, response) {
     }
   } else if (request.method === "POST") {
     try {
-      const { movieId } = request.query; 
+      const { movieName } = request.query; 
       const commentData = request.body;
-      commentData.movieId = movieId;
+      commentData.movieName = movieName;
             console.log("Received POST request with data:", commentData);
 
       

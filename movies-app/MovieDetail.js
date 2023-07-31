@@ -3,14 +3,16 @@ import Image from "next/image";
 import CommentForm from "./CommentForm";
 import { useState, useEffect } from "react";
 import Comment from "./Comments";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 export default function MovieDetail({ movie }) {
   const [comments, setComments] = useState([]);
   const router = useRouter();
-  const{id}= router.query;
+  const { id } = router.query;
 
-  const commentsForCurrentMovie=comments.filter((comment)=>comment.movieName === movie.original_title);
+  const commentsForCurrentMovie = comments.filter(
+    (comment) => comment.movieName === movie.original_title
+  );
 
   const handleAddComment = (savedComment) => {
     console.log("New comment received:", savedComment);
@@ -21,10 +23,15 @@ export default function MovieDetail({ movie }) {
   useEffect(() => {
     async function fetchComments() {
       try {
-        const response = await fetch("/api/comments/");
+        const response = await fetch(
+          `/api/comments/?movieName=${movie.original_title}`
+        );
         if (response.ok) {
           const data = await response.json();
-          setComments(data);
+          console.log("data:", data, movie);
+          setComments(
+            data.filter((comment) => comment.movieName === movie.original_title)
+          );
         } else {
           console.error(`Error: ${response.status}`);
         }
@@ -34,13 +41,12 @@ export default function MovieDetail({ movie }) {
     }
 
     fetchComments();
-  }, []);
+  }, [movie]);
   console.log("Movie data:", movie);
   if (!movie) {
     return <h3>loading...</h3>;
   }
 
-  
   const {
     original_title,
     overview,
@@ -94,8 +100,12 @@ export default function MovieDetail({ movie }) {
           />
         </li>
       </ul>
-      <Comment comments={commentsForCurrentMovie} />
-      <CommentForm onAddComment={handleAddComment} movieId={id} movie={movie}/>
+      <Comment comments={comments} />
+      <CommentForm
+        onAddComment={handleAddComment}
+        movieName={original_title}
+        movie={movie}
+      />
     </>
   );
 }

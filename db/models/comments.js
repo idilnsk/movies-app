@@ -11,7 +11,7 @@ const CommentSchema = new Schema({
     type: String,
     required: true,
   },
-  movieId: {
+  movieName: {
     type: String,
     required: true,
   },

@@ -79,12 +79,12 @@ console.log("questions:",questions);
           </ul>
         </div>
       ) : (
-        <div>
+        <div className="text-center border p-4 rounded-lg">
           <h1 className="text-3xl font-bold">Results</h1>
           <p>You scored {score} out of 5</p>
           <p>Play again?</p>
           <button
-            className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-blue-600"
+            className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-purple-600 "
             onClick={() => window.location.reload()}
           >
             Restart
