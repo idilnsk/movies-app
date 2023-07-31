@@ -12,7 +12,10 @@ export default function Navigation() {
             <Link href="/quiz"> 🎮 Quiz </Link>
           </li>
           <li>
-            <Link href="/forum"> 💬 Forum </Link>
+            <Link href="/login"> 💬 Log-in </Link>
+          </li>
+          <li>
+            <Link href="/watchlist">watchlist</Link>
           </li>
           <li>
             <Link href="Form"> 📞 Contact Us </Link>
