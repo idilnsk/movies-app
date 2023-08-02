@@ -25,14 +25,27 @@ export default function WatchlistItem({ item, onRemoveFromWatchlist, original_ti
     id && fetchMovieDetails(id);
   }, [id]);
 
-  const handleRemoveFromWatchlist = async () => {
+ /*  const handleRemoveFromWatchlist = async () => {
     try {
       const response = await fetch(`/api/watchlist/${movieData.id}`, {
         method: "DELETE",
       });
 
-      if (response.ok) {
-        onRemoveFromWatchlist(movieData.id);
+       if (response.ok) {
+        onRemoveFromWatchlist(movieData.id); 
+
+        await dbConnect();
+
+        const user = await User.findOne({ googleId: data.user.id });
+
+      if (user) {
+        // Update the watchlist in the user document
+        user.watchlist = user.watchlist.filter((item) => item.movieId !== movieData.id);
+
+        // Save the updated user document
+        await user.save();
+      }
+    
       } else {
         console.error(`Error: ${response.status}`);
       }
@@ -42,11 +55,11 @@ export default function WatchlistItem({ item, onRemoveFromWatchlist, original_ti
   };
   if (!movieData) {
     return null;
-  }
+  } */
   
   console.log("movieData:", movieData);
   return (
-    <div>
+    <div >
       <h3>{movieData.title}</h3>
       <Link href={`/movie-detail/${id}/${original_title}`}>
         {movieData.poster_path && (

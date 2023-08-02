@@ -1,20 +1,22 @@
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
-const CommentForm = ({ onAddComment,movieName, movie }) => {
+const CommentForm = ({ onAddComment, movieName, movie }) => {
   const [name, setName] = useState("");
   const [comment, setComment] = useState("");
+  const { data: sessionData } = useSession();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Name:", name);
     console.log("Comment:", comment);
     const newComment = {
-      name,
-      comment,
-      movieName:movie.original_title
+      comment: comment,
+      movieName: movieName,
+      name:name,
     };
     try {
-      const response = await fetch(`/api/comments?movieName=${movieName}`, {
+      const response = await fetch(`/api/comments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +40,6 @@ const CommentForm = ({ onAddComment,movieName, movie }) => {
       console.error("Error submitting comment:", error);
     }
   };
-
   return (
     <>
       <div className="my-4">
@@ -49,7 +50,7 @@ const CommentForm = ({ onAddComment,movieName, movie }) => {
         >
           <div className="mb-4">
             <label htmlFor="comment-name" className="block font-semibold">
-              Name:
+              Title:
             </label>
             <input
               type="text"
