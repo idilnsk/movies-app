@@ -1,10 +1,15 @@
 import dbConnect from "../../../db/connect";
 import Watchlist from "../../../db/models/watchlists";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]";
+import User from "../../../db/models/User";
+import { ObjectId } from "mongoose";
 
 export default async function handler(req, res) {
   const mongoURI = process.env.MONGODB_URI;
+  const session = await getServerSession(req, res, authOptions);
+  console.log("sessionServer", session);
   await dbConnect(mongoURI);
-  const { movieId } = req.query;
   if (req.method === "POST") {
     try {
       const { movieId, movieTitle, posterPath } = req.body;
@@ -16,8 +21,12 @@ export default async function handler(req, res) {
         releaseDate: "Unknown",
       });
 
-      const savedItem = await watchlist.save();
-      res.status(201).json(savedItem);
+      const savedItem = await User.findOneAndUpdate(
+        { googleId: session.user.googleId },
+        { $addToSet: { watchlist: movieId } },
+        { new: true, upsert: true }
+      );
+      res.status(201).json();
     } catch (error) {
       console.error("Error adding movie to watchlist:", error);
       res.status(500).json({ error: "Unable to add movie to watchlist" });
@@ -26,7 +35,9 @@ export default async function handler(req, res) {
     try {
       const { movieId } = req.query;
 
-      let watchlist = await Watchlist.find();
+      let watchlist = await User.findOne({
+        googleId: session.user.googleId,
+      }).select("watchlist");
 
       res.status(200).json(watchlist);
     } catch (error) {
@@ -35,10 +46,14 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "DELETE") {
     try {
-      await Watchlist.findOneAndRemove({ movieId });
-      if (deletedMovie) {
-        res.status(200).json({ message: "Movie removed from watchlist" });
-      }
+      let { movieId } = req.body;
+      // movieId = "" + movieId;
+      console.log("googleId:", session.user.googleId, movieId);
+      await User.updateOne(
+        { googleId: session.user.googleId },
+        { $pull: { watchlist: movieId } }
+      );
+      res.status(200).json({ message: "Movie removed from watchlist" });
     } catch (error) {
       console.error("Error removing movie from watchlist:", error);
       res.status(500).json({ error: "Unable to remove movie from watchlist" });

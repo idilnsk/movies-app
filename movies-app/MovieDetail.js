@@ -2,21 +2,25 @@ import Link from "next/link";
 import Image from "next/image";
 import CommentForm from "./CommentForm";
 import { useState, useEffect } from "react";
-import Comment from "./Comments";
+import Comments from "./Comments";
 import { useRouter } from "next/router";
+import { useSession, signIn } from "next-auth/react";
 
-export default function MovieDetail({ movie }) {
+export default function MovieDetail({ movie, movieName }) {
   const [comments, setComments] = useState([]);
   const router = useRouter();
-  const { id } = router.query;
-
+  const { data: session } = useSession();
   const commentsForCurrentMovie = comments.filter(
     (comment) => comment.movieName === movie.original_title
   );
 
   const handleAddComment = (savedComment) => {
-    console.log("New comment received:", savedComment);
-    setComments((prevComments) => [savedComment, ...prevComments]);
+    console.log(
+      "New comment received:",
+      savedComment.comment[savedComment.comment.length - 1]
+    );
+    const lastComment = savedComment.comment[savedComment.comment.length - 1];
+    setComments((prevComments) => [lastComment, ...prevComments]);
   };
   console.log("Comments state:", comments);
 
@@ -28,7 +32,7 @@ export default function MovieDetail({ movie }) {
         );
         if (response.ok) {
           const data = await response.json();
-          console.log("data:", data, movie);
+          console.log("data ın FETCH COMMENTS:", data, movie);
           setComments(
             data.filter((comment) => comment.movieName === movie.original_title)
           );
@@ -42,7 +46,12 @@ export default function MovieDetail({ movie }) {
 
     fetchComments();
   }, [movie]);
-  console.log("Movie data:", movie);
+
+const handleDeleteComment=(commentId)=>{
+  setComments((prevComments)=> prevComments.filter((comment)=>comment._id !==commentId));
+};
+
+  //console.log("comment:", comment);
   if (!movie) {
     return <h3>loading...</h3>;
   }
@@ -100,7 +109,7 @@ export default function MovieDetail({ movie }) {
           />
         </li>
       </ul>
-      <Comment comments={comments} />
+      <Comments commentData={comments} onDeleteComment={handleDeleteComment}/>
       <CommentForm
         onAddComment={handleAddComment}
         movieName={original_title}

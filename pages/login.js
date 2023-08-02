@@ -1,28 +1,23 @@
-import { useSession, signIn, signOut } from "next-auth/next";
+import  {useSession, signIn, signOut } from "next-auth/react";
 import Navigation from "./navigation/Index";
 
-
-
-export const Login = () => {
+export default function Login() {
   const { data: session } = useSession();
-
-  if (session) {
-    return (
-        <div>
-            <Navigation/>
-        <p>Welcome, {session.user.email}</p>
-        <button onClick={() => signOut()}>Sign out</button>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <Navigation/>
-        <p>You are not signed in.</p>
-        <button onClick={() => signIn()}>Sign in</button>
-      </div>
-    );
-  }
-};
-
-export default Login;
+  console.log("session", session);
+  // if (session) {
+  return (
+    <>
+    <Navigation/>
+    <div>
+      {session ? (
+        <>
+          <p>Welcome, {session.user.name}!</p>
+          <button onClick={() => signOut()}>Sign out</button>
+        </>
+      ) : (
+        <button onClick={() => signIn()}>Sign in </button>
+      )}
+    </div>
+    </>
+  );
+}

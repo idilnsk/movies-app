@@ -3,8 +3,12 @@ import MovieList from "../movies-app/MovieList";
 import Navigation from "./navigation/Index";
 import Layout from "@/movies-app/Layout";
 import useMovieStore from "@/store/movieStore";
+import { useSession } from "next-auth/react";
+
 
 export default function MovieListPage() {
+  const {data:session}=useSession()
+  console.log("session:", session);
   const { movies, currentPage, maxResults, searchInput, setMovies, setCurrentPage, setMaxResults } = useMovieStore();
   const apiKey = process.env.NEXT_PUBLIC_MOVIEDB_API_KEY;
 

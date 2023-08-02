@@ -42,7 +42,7 @@ export default function SearchBar({ onSearchSubmit }) {
 
   console.log("searchedMovies:", searchedMovies);
   return (
-    <div className="flex items-center py-4 pl-4">
+    <div className="flex items-center justify-center py-4 pl-4">
       <div className="flex border border-purple-200 rounded">
         <input
           type="text"
