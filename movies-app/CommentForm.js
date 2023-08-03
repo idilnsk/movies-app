@@ -30,8 +30,7 @@ const CommentForm = ({ onAddComment, movieName, movie }) => {
         onAddComment(savedComment.savedComment); // Update the comments with the new comment
         setName(""); // Reset the name input field
         setComment(""); // Reset the comment textarea
-        //document.getElementById("comment-name").value = "";
-        //document.getElementById("comment-message").value = "";
+   
         document.getElementById("comment-name").focus();
       } else {
         console.error(`Error: ${response.status}`);

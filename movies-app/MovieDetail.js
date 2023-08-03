@@ -28,11 +28,11 @@ export default function MovieDetail({ movie, movieName }) {
     async function fetchComments() {
       try {
         const response = await fetch(
-          `/api/comments/?movieName=${movie.original_title}`
+          `/api/comments/`
         );
         if (response.ok) {
           const data = await response.json();
-          console.log("data ın FETCH COMMENTS:", data, movie);
+          console.log("data in FETCH COMMENTS:", data, movie);
           setComments(
             data.filter((comment) => comment.movieName === movie.original_title)
           );

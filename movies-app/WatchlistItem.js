@@ -1,14 +1,15 @@
 import React from "react";
-import { useRouter } from "next/router";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
-export default function WatchlistItem({ item, onRemoveFromWatchlist, original_title }) {
-  console.log(item);
-  const router = useRouter();
-  const [movieData, setMovieData] = useState();
-  const id = item.movieId;
+//make object
+
+export default function WatchlistItem({ item, onRemoveFromWatchlist }) {
+  console.log("item:", item);
+  //make comment component, state,useEffect, fetch the comments
+  const [itemData, setItemData] = useState();
+
   useEffect(() => {
     const fetchMovieDetails = async (externalId) => {
       const apiKey = process.env.NEXT_PUBLIC_MOVIEDB_API_KEY;
@@ -18,34 +19,21 @@ export default function WatchlistItem({ item, onRemoveFromWatchlist, original_ti
       try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        console.log("data:", data);
-        setMovieData(data);
+        console.log("######data:", data);
+        setItemData(data);
       } catch (error) {}
     };
-    id && fetchMovieDetails(id);
-  }, [id]);
+    !itemData && fetchMovieDetails(item);
+  }, [item]);
 
- /*  const handleRemoveFromWatchlist = async () => {
+  const handleRemoveFromWatchlist = async () => {
     try {
-      const response = await fetch(`/api/watchlist/${movieData.id}`, {
+      const response = await fetch(`/api/watchlist/${itemData.id}`, {
         method: "DELETE",
       });
 
-       if (response.ok) {
-        onRemoveFromWatchlist(movieData.id); 
-
-        await dbConnect();
-
-        const user = await User.findOne({ googleId: data.user.id });
-
-      if (user) {
-        // Update the watchlist in the user document
-        user.watchlist = user.watchlist.filter((item) => item.movieId !== movieData.id);
-
-        // Save the updated user document
-        await user.save();
-      }
-    
+      if (response.ok) {
+        onRemoveFromWatchlist(itemData.id);
       } else {
         console.error(`Error: ${response.status}`);
       }
@@ -53,26 +41,30 @@ export default function WatchlistItem({ item, onRemoveFromWatchlist, original_ti
       console.error("Error removing movie from watchlist:", error);
     }
   };
-  if (!movieData) {
+  if (!itemData) {
     return null;
-  } */
-  
-  console.log("movieData:", movieData);
+  }
   return (
-    <div >
-      <h3>{movieData.title}</h3>
-      <Link href={`/movie-detail/${id}/${original_title}`}>
-        {movieData.poster_path && (
-          <Image
-            src={`https://image.tmdb.org/t/p/w500${movieData.poster_path}`}
-            alt={movieData.title}
-            width={200}
-            height={300}
-            className="rounded-lg"
-          />
-        )}
+    <div>
+      <h3>{itemData.title}</h3>
+      <Link href={`/movie-detail/${itemData.id}/${itemData.title}`}>
+        {" "}
+        <Image
+          src={`https://image.tmdb.org/t/p/w500${itemData.poster_path}`}
+          alt={itemData.title}
+          width={200}
+          height={300}
+          className="rounded-lg"
+        />
       </Link>
-      <button onClick={handleRemoveFromWatchlist}>Remove from Watchlist</button>
+
+      <button
+        onClick={() => {
+          handleRemoveFromWatchlist(itemData.id);
+        }}
+      >
+        Remove from Watchlist
+      </button>
     </div>
   );
 }

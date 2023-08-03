@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -9,10 +10,10 @@ const userSchema = new Schema({
     {
       name: { type: String },
       comment: { type: String },
+      movieName:{type:String},
     },
   ],
 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
-
 export default User;
