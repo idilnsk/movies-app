@@ -41,11 +41,11 @@ const CommentForm = ({ onAddComment, movieName, movie }) => {
   };
   return (
     <>
-      <div className="my-4">
+      <div  className=" py-4 px-4 border-purple-600">
         <form
           id="comment-form"
           onSubmit={handleSubmit}
-          className="bg-gray-100 p-4 rounded-lg"
+          className="flex flex-col space-y-4 border border-purple-200 p-4 rounded"
         >
           <div className="mb-4">
             <label htmlFor="comment-name" className="block font-semibold">

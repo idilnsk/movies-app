@@ -1,18 +1,17 @@
-import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import useWatchlistStore from "../store/watchlistStore";
 
-export default function MovieCard({ movie, setMovies }) {
-  const [isInWatchlist, setIsInWatchlist] = useState(false);
+export default function MovieCard({ movie, inWatchlist }) {
+  const [isInWatchlist, setIsInWatchlist] = useState(inWatchlist);
+  const { addToWatchlist, removeFromWatchlist } = useWatchlistStore();
   const { original_title, poster_path, id } = movie;
 
-
-  const handleToggleWatchlist = async (movieId) => {
-
+  const handleAddToWatchlist = async () => {
     try {
-      const response = await fetch("/api/watchlist", {
-        method: isInWatchlist ? "DELETE" : "POST",
+      const response = await fetch(`/api/watchlist`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -24,15 +23,41 @@ export default function MovieCard({ movie, setMovies }) {
       });
 
       if (response.ok) {
-        setIsInWatchlist((prev) => !prev); // Update the state of isInWatchlist
+        setIsInWatchlist(true);
+        addToWatchlist(movie.id);
       } else {
         console.error(`Error: ${response.status}`);
       }
     } catch (error) {
-      console.error("Error toggling watchlist:", error);
+      console.error("Error adding to watchlist:", error);
     }
   };
-  //console.log("movie", movie);
+
+  const handleRemoveFromWatchlist = async () => {
+    try {
+      const response = await fetch(`/api/watchlist?movieId=${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        setIsInWatchlist(false);
+        removeFromWatchlist(movie.id);
+      } else {
+        console.error(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error removing from watchlist:", error);
+    }
+  };
+
+  const handleToggleWatchlist = () => {
+    if (isInWatchlist) {
+      handleRemoveFromWatchlist();
+    } else {
+      handleAddToWatchlist();
+    }
+  };
+
   console.log("HOMEPAGE");
   return (
     <div className="group relative rounded-lg overflow-hidden">
