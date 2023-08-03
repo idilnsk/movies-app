@@ -33,7 +33,7 @@ export default function WatchlistItem({ item, onRemoveFromWatchlist }) {
       });
 
       if (response.ok) {
-        onRemoveFromWatchlist(itemData.id);
+        onRemoveFromWatchlist(item);
       } else {
         console.error(`Error: ${response.status}`);
       }
@@ -46,7 +46,7 @@ export default function WatchlistItem({ item, onRemoveFromWatchlist }) {
   }
   return (
     <div>
-      <h3>{itemData.title}</h3>
+      {/* <h3>{itemData.title}</h3> */}
       <Link href={`/movie-detail/${itemData.id}/${itemData.title}`}>
         {" "}
         <Image

@@ -1,11 +1,13 @@
 import { create } from 'zustand';
 
 const useMovieStore = create((set) => ({
+  
   movies: [],
   currentPage: 1,
   searchInput:"",
   maxResults: 0,
   movieData:(null),
+  watchlist:[],
   setMovieData: (data) => set({ movieData: data }),
   setSearchInput:(value)=>set({searchInput:value}),
   setMovies: (movies) => set({ movies }),

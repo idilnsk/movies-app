@@ -37,7 +37,7 @@ export default function WatchlistPage() {
         (item) => String(item) !== String(movieId)
       );
       // Update the state to reflect the updated watchlist (removing the movie)
-      setWatchlist(updatedWatchlist);
+      setWatchlist([...updatedWatchlist]);
 
       // You can also make an API call here to update the watchlist on the server-side
     } catch (error) {
@@ -50,17 +50,17 @@ export default function WatchlistPage() {
       <Navigation />
       <h1>My Watchlist</h1>
       <div className="flex justify-center flex-wrap mx-auto p-4 gap-4">
-        <div className="grid grid-cols-5 gap- 4 ">
+        <div className="grid grid-cols-5 gap-4">
           {watchlist?.map((item) => (
-            <WatchlistItem
-              key={item._id}
-              item={item}
-              onRemoveFromWatchlist={removeFromWatchlist}
-            />
+            <div key={item}>
+              <WatchlistItem
+                item={item}
+                onRemoveFromWatchlist={removeFromWatchlist}
+              />
+            </div>
           ))}
         </div>
       </div>
     </div>
-  );
-}
+)};
 //

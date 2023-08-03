@@ -1,5 +1,4 @@
 import dbConnect from "../../../../db/connect";
-import Comments from "../../../../db/models/comments";
 
 export default async function handler(req, res) {
   const mongoURI = process.env.MONGODB_URI;
