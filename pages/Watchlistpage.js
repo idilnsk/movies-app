@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import WatchlistItem from "../../movies-app/WatchlistItem";
-import Navigation from "../navigation/Index";
-import { useRouter} from "next/router";
-import Commentform from "../../movies-app/CommentForm"
+import WatchlistItem from "../movies-app/WatchlistItem";
+import Navigation from "./navigation/Index";
+import { useRouter } from "next/router";
 
 export default function WatchlistPage() {
-    
   const [watchlist, setWatchlist] = useState([]);
   const router = useRouter();
 
@@ -13,25 +11,27 @@ export default function WatchlistPage() {
     console.log("hook is triggered");
     const fetchWatchlist = async () => {
       try {
-      
         const response = await fetch("/api/watchlist");
         if (response.ok) {
           const data = await response.json();
-          
+
           // Filter out duplicate movies based on movieId before setting the watchlist state
           const filteredWatchlist = data.reduce((acc, item) => {
-            if (!acc.some((watchlistItem) => watchlistItem.movieId === item.movieId)) {
+            if (
+              !acc.some(
+                (watchlistItem) => watchlistItem.movieId === item.movieId
+              )
+            ) {
               acc.push(item);
             }
             return acc;
           }, []);
-          
+
           setWatchlist(filteredWatchlist);
           console.log(filteredWatchlist);
         } else {
           console.error(`Error: ${response.status}`);
         }
-    
       } catch (error) {
         console.error("Error fetching watchlist:", error);
       }
@@ -43,7 +43,9 @@ export default function WatchlistPage() {
   const removeFromWatchlist = async (movieId) => {
     try {
       // Make a copy of the current watchlist and filter out the movie with the given movieId
-      const updatedWatchlist = watchlist.filter((item) => item.movieId != movieId);
+      const updatedWatchlist = watchlist.filter(
+        (item) => item.movieId != movieId
+      );
       // Update the state to reflect the updated watchlist (removing the movie)
       setWatchlist(updatedWatchlist);
 
@@ -59,12 +61,16 @@ export default function WatchlistPage() {
       <h1>My Watchlist</h1>
       <div className="flex justify-center flex-wrap mx-auto p-4 gap-4">
         <div className="grid grid-cols-5 gap- 4 ">
-      {watchlist.map((item) => (
-        <WatchlistItem key={item._id} item={item} 
-        onRemoveFromWatchlist={removeFromWatchlist} watchlist={watchlist} />
-      ))}
+          {watchlist.map((item) => (
+            <WatchlistItem
+              key={item._id}
+              item={item}
+              onRemoveFromWatchlist={removeFromWatchlist}
+              watchlist={watchlist}
+            />
+          ))}
+        </div>
       </div>
-    </div>
     </div>
   );
 }
