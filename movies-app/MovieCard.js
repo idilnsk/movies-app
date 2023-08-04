@@ -60,33 +60,38 @@ export default function MovieCard({ movie, inWatchlist }) {
 
   console.log("HOMEPAGE");
   return (
-    <div className="group relative rounded-lg overflow-hidden">
-      <Link href={`/movie-detail/${id}/${original_title}`}>
-        {poster_path && (
-          <Image
-            src={`https://image.tmdb.org/t/p/w500${poster_path}`}
-            width={200}
-            height={20}
-            alt="Movie Poster"
-          />
-        )}
-        {!poster_path && (
-          <Image
-            src={`/next.svg`}
-            width={200}
-            height={20}
-            alt="Movie Poster"
-            className=" rounded-lg"
-          />
-        )}
-      </Link>
-      <button onClick={handleToggleWatchlist}>
+    <div className="group">
+      <div className="relative rounded-lg overflow-hidden">
+        <Link href={`/movie-detail/${id}/${original_title}`}>
+          {poster_path && (
+            <Image
+              src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+              width={200}
+              height={300}
+              alt="Movie Poster"
+            />
+          )}
+          {!poster_path && (
+            <Image
+              src={`/next.svg`}
+              width={200}
+              height={300}
+              alt="Movie Poster"
+              className=" rounded-lg"
+            />
+          )}
+        </Link>
+        <div
+          className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-20 shadow-3xl transition-opacity duration-300"
+          style={{ pointerEvents: "none" }}
+        ></div>
+      </div>
+      <button 
+        onClick={handleToggleWatchlist}
+        className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-2 text-center w-full"
+      >
         {isInWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
       </button>
-      <div
-        className="absolute top-0 left-0 w-full h-full bg-white opacity-0 group-hover:opacity-20 shadow-3xl transition-opacity duration-300"
-        style={{ pointerEvents: "none" }}
-      ></div>
     </div>
   );
 }

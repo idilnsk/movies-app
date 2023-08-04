@@ -8,6 +8,8 @@ const CommentForm = ({ onAddComment, movieName, movie }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
     console.log("Name:", name);
     console.log("Comment:", comment);
     const newComment = {
@@ -45,40 +47,43 @@ const CommentForm = ({ onAddComment, movieName, movie }) => {
         <form
           id="comment-form"
           onSubmit={handleSubmit}
-          className="flex flex-col space-y-4 border border-purple-200 p-4 rounded"
         >
-          <div className="mb-4">
+          <div className="mb-4 max-w-lg mx-auto">
             <label htmlFor="comment-name" className="block font-semibold">
               Title:
             </label>
             <input
               type="text"
-              className="w-full border border-gray-300 p-2 rounded-md"
+              className="w-full p-2 rounded-md"
               id="comment-name"
               cols="30"
               rows="5"
               required
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-4 max-w-lg mx-auto">
             <label htmlFor="comment-message" className="block font-semibold">
               Add a comment:
             </label>
             <textarea
-              className="w-full border border-gray-300 p-2 rounded-md"
+              className="w-full p-2 rounded-md h-20"
               id="comment-message"
               rows="5"
               required
+              value={comment}
               onChange={(e) => setComment(e.target.value)}
             />
           </div>
+          <div className="flex justify-center">
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            className=" bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600"
             type="submit"
           >
             SUBMIT
           </button>
+          </div>
         </form>
       </div>
     </>

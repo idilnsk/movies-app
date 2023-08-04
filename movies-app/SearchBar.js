@@ -43,7 +43,7 @@ export default function SearchBar({ onSearchSubmit }) {
   console.log("searchedMovies:", searchedMovies);
   return (
     <div className="flex items-center justify-center py-4 pl-4">
-      <div className="flex border border-purple-200 rounded">
+      <div className="flex rounded">
         <input
           type="text"
           className="block w-full px-4 py-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
