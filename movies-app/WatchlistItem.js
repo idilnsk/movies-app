@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-
 //make object
 
 export default function WatchlistItem({ item, onRemoveFromWatchlist }) {
@@ -46,7 +45,6 @@ export default function WatchlistItem({ item, onRemoveFromWatchlist }) {
   }
   return (
     <div>
-      {/* <h3>{itemData.title}</h3> */}
       <Link href={`/movie-detail/${itemData.id}/${itemData.title}`}>
         {" "}
         <Image
