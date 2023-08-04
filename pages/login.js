@@ -8,14 +8,14 @@ export default function Login() {
   return (
     <>
       <Navigation />
-      <div>
+      <div className="flex  flex-col items-center justify-center h-screen">
         {session ? (
           <>
             <p>Welcome, {session.user.name}!</p>
-            <button onClick={() => signOut()}>Sign out</button>
+            <button onClick={() => signOut()} className="px-4 py-2 text-white bg-purple-600 rounded">Sign out</button>
           </>
         ) : (
-          <button onClick={() => signIn()}>Sign in </button>
+          <button onClick={() => signIn()} className="px-4 py-2 text-white bg-purple-600 rounded">Sign in </button>
         )}
       </div>
     </>

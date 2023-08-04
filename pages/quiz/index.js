@@ -5,6 +5,7 @@ import Navigation from "../navigation/Index";
 export default function Quiz() {
   const fetcher = url => fetch(url).then(r => r.json())
   const { data:questions, error, isLoading } = useSWR("/api/quiz", fetcher);
+  
 
   //setQuestions(questions);
   const {
@@ -63,8 +64,9 @@ console.log("questions:",questions);
     <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
       {!showResults ? (
         <div>
-          <h1 className="text-3xl font-bold">Quiz</h1>
-          <p>{currentQuestionData.text}</p>
+          <h1 className="text-3xl font-bold mb-4">Quiz</h1>
+          <div className="p-4 rounded-lg border-2 border-purple-500">
+          <p className="mb-4">{currentQuestionData.text}</p>
           <ul className="divide-y divide-gray-300">
             {currentQuestionData.options.map((option) => (
               <li
@@ -76,10 +78,11 @@ console.log("questions:",questions);
               </li>
             ))}
           </ul>
+          </div>
         </div>
       ) : (
-        <div className="text-center border p-4 rounded-lg">
-          <h1 className="text-3xl font-bold">Results</h1>
+        <div className="text-center border border-purple-500 p-8 rounded-lg max-w-xl mx-auto">
+          <h1 className="text-3xl font-bold mb-6">Results</h1>
           <p>You scored {score} out of 5</p>
           <p>Play again?</p>
           <button

@@ -11,6 +11,8 @@ export default function MovieListPage() {
   console.log("session:", session);
   const { movies, currentPage, maxResults, searchInput, setMovies, setCurrentPage, setMaxResults } = useMovieStore();
   const apiKey = process.env.NEXT_PUBLIC_MOVIEDB_API_KEY;
+  
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +45,7 @@ export default function MovieListPage() {
           onPageClick={handlePaginationClick}
           currentPage={currentPage}
           totalResults={maxResults}
+     
         />
       </div>
     </>
