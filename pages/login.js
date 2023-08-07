@@ -9,10 +9,10 @@ export default function Login() {
   return (
     <>
       <Navigation />
-      <div className="flex  flex-col items-center justify-center h-screen">
+      <div className="flex  flex-col items-center justify-center h-screen bg-center bg-cover" style={{backgroundImage:`url(/cinema-background.jpg)`}}>
         {session ? (
           <>
-            <p>Welcome, {session.user.name}!</p>
+            <p className="text-white">Welcome, {session.user.name}!</p>
             <button onClick={() => signOut()} className="px-4 py-2 text-white bg-purple-600 rounded">Sign out</button>
           </>
         ) : (
