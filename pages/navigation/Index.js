@@ -18,7 +18,9 @@ export default function Navigation() {
       <nav>
         <ul className="md:flex gap-8 p-6 uppercase bg-black bg-opacity-10 rounded-2xl items-center">
           <li className="flex-shrink-0 text-4xl font-bold text-purple-600 mr-4">
+            <Link href="/">
             My Movies
+            </Link>
           </li>
           <li className="ml-auto">
             <Link href="/">
