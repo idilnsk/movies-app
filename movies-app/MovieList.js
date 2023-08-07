@@ -16,8 +16,13 @@ export default function MovieList({ onPageClick, totalResults }) {
   useEffect(() => {
     const fetchWatchlist = async () => {
       const res = await fetch("/api/watchlist");
-      const list = await res.json();
-      setWatchlist([...list]);
+      if (res.ok) {
+        const list = await res.json();
+        setWatchlist([...list]);
+      } else {
+        // Set the default value to an empty array if the fetch fails
+        setWatchlist([]);
+      }
     };
     fetchWatchlist();
   }, [movies, setWatchlist]);
