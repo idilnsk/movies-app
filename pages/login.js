@@ -1,5 +1,6 @@
 import { useSession, signIn, signOut } from "next-auth/react";
 import Navigation from "./navigation/Index";
+import Footer from "@/movies-app/Footer";
 
 export default function Login() {
   const { data: session } = useSession();
@@ -18,6 +19,7 @@ export default function Login() {
           <button onClick={() => signIn()} className="px-4 py-2 text-white bg-purple-600 rounded">Sign in </button>
         )}
       </div>
+      <Footer/>
     </>
   );
 }

@@ -3,6 +3,7 @@ import WatchlistItem from "../../movies-app/WatchlistItem";
 import Navigation from "../navigation/Index";
 import { useRouter } from "next/router";
 import useMovieStore from "@/store/movieStore";
+import Footer from "../../movies-app/Footer";
 
 export default function WatchlistPage() {
   const [watchlist, setWatchlist] = useState([]);
@@ -49,21 +50,22 @@ export default function WatchlistPage() {
     <div>
       <Navigation />
       <h1 className="text-2xl pt-4 pb-4">My Watchlist</h1>
-      <div className="flex justify-center flex-wrap mx-auto p-4 gap-4">
+      <div className="flex justify-center flex-wrap mx-auto p-4 gap-4 mb-60">
         <div className="grid grid-cols-5 gap-4 ">
           {watchlist?.map((item) => (
-            <div key={item} >
+            <div key={item}>
               <WatchlistItem
                 item={item}
                 onRemoveFromWatchlist={removeFromWatchlist}
               />
-              <div >
-                
+              <div>
               </div>
             </div>
           ))}
         </div>
       </div>
+      <Footer/>
     </div>
-)};
+  );
+}
 //
