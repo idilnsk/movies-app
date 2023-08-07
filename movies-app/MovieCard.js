@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import useWatchlistStore from "../store/watchlistStore";
+import icon from "../public/default-movie-poster.jpg";
 
 export default function MovieCard({ movie, inWatchlist }) {
   const [isInWatchlist, setIsInWatchlist] = useState(inWatchlist);
@@ -61,24 +62,26 @@ export default function MovieCard({ movie, inWatchlist }) {
   console.log("HOMEPAGE");
   return (
     <div className="group">
-      <div className="relative rounded-lg overflow-hidden">
+      <div className="relative rounded-lg overflow-hidden w-[200px] h-[300px]">
         <Link href={`/movie-detail/${id}/${original_title}`}>
           {poster_path && (
             <Image
+              fill
+              style={{ objectFit: "cover" }}
               src={`https://image.tmdb.org/t/p/w500${poster_path}`}
-              width={200}
-              height={300}
               alt="Movie Poster"
             />
           )}
           {!poster_path && (
-            <Image
-              src={`/next.svg`}
-              width={200}
-              height={300}
-              alt="Movie Poster"
-              className=" rounded-lg"
-            />
+            <div className="w-[200px] h-[245px]">
+              <Image
+                fill
+                style={{ objectFit: "cover" }}
+                src={icon}
+                alt="Movie Poster"
+                className=" rounded-lg"
+              />
+            </div>
           )}
         </Link>
         <div
@@ -86,7 +89,7 @@ export default function MovieCard({ movie, inWatchlist }) {
           style={{ pointerEvents: "none" }}
         ></div>
       </div>
-      <button 
+      <button
         onClick={handleToggleWatchlist}
         className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-2 text-center w-full"
       >

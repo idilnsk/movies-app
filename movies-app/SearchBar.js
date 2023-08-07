@@ -46,7 +46,7 @@ export default function SearchBar({ onSearchSubmit }) {
       <div className="flex rounded-lg overflow-hidden bg-white">
         <input
           type="text"
-          className="block w-full px-4 py-2 text-purple-700  focus:outline-none focus:ring focus:ring-purple-300 focus:ring-opacity-40 pr-0 border-none"
+          className="block w-full px-4 py-2 text-black  focus:outline-none focus:ring focus:ring-purple-300 focus:ring-opacity-40 pr-0 border-none bg-white"
           placeholder="type to search..."
           value={searchInput}
           onChange={(e) => handleChange(e.target.value)}
