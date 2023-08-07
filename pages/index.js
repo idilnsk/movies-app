@@ -5,6 +5,7 @@ import Layout from "@/movies-app/Layout";
 import useMovieStore from "@/store/movieStore";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import Footer from "../movies-app/Footer";
 
 export default function MovieListPage() {
   const { data: session } = useSession();
@@ -63,6 +64,7 @@ export default function MovieListPage() {
           currentPage={currentPage}
           totalResults={maxResults}
         />
+        <Footer/>
       </div>
     </>
   );

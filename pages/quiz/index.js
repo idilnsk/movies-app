@@ -1,6 +1,7 @@
 import useSWR from "swr";
 import useQuizStore from "../../store/quizStore";
 import Navigation from "../navigation/Index";
+import Footer from "@/movies-app/Footer";
 
 export default function Quiz() {
   const fetcher = url => fetch(url).then(r => r.json())
@@ -61,7 +62,7 @@ console.log("questions:",questions);
   return (
     <>
     <Navigation/>
-    <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12">
+    <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12 mb-60">
       {!showResults ? (
         <div>
           <h1 className="text-3xl font-bold mb-4">Quiz</h1>
@@ -94,6 +95,7 @@ console.log("questions:",questions);
         </div>
       )}
     </div>
+    <Footer/>
     </>
   );
 }
