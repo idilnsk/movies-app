@@ -4,9 +4,8 @@ import Navigation from "../navigation/Index";
 import Footer from "@/movies-app/Footer";
 
 export default function Quiz() {
-  const fetcher = url => fetch(url).then(r => r.json())
-  const { data:questions, error, isLoading } = useSWR("/api/quiz", fetcher);
-  
+  const fetcher = (url) => fetch(url).then((r) => r.json());
+  const { data: questions, error, isLoading } = useSWR("/api/quiz", fetcher);
 
   //setQuestions(questions);
   const {
@@ -17,19 +16,18 @@ export default function Quiz() {
     showResults,
     setShowResults,
     setShuffledQuestions,
-    setQuestions
+    setQuestions,
   } = useQuizStore();
 
   //setQuestionsIndex(questions);
 
-  
- /*  useEffect(() => {
+  /*  useEffect(() => {
     if (questions) {
       setQuestions(questions);
       setShuffledQuestions(shuffleQuestions(questions));
     }
   }, [questions, setShuffledQuestions, setQuestions]); */
-  
+
   const shuffleQuestions = (questions) => {
     const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
     return shuffledQuestions.slice(0, 5); // Select the first 5 questions
@@ -42,7 +40,7 @@ export default function Quiz() {
   if (error) {
     return <div>Error fetching data...</div>;
   }
-console.log("questions:",questions);
+  console.log("questions:", questions);
   const handleAnswerClick = (isCorrect) => {
     if (isCorrect) {
       incrementScore();
@@ -55,47 +53,46 @@ console.log("questions:",questions);
     }
   };
 
-  const shuffledQuestions= shuffleQuestions(questions)
+  const shuffledQuestions = shuffleQuestions(questions);
   const currentQuestionData = shuffledQuestions[currentQuestionIndex];
 
-  
   return (
     <>
-    <Navigation/>
-    <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12 mb-60">
-      {!showResults ? (
-        <div>
-          <h1 className="text-3xl font-bold mb-4">Quiz</h1>
-          <div className="p-4 rounded-lg border-2 border-purple-500">
-          <p className="mb-4">{currentQuestionData.text}</p>
-          <ul className="divide-y divide-gray-300">
-            {currentQuestionData.options.map((option) => (
-              <li
-                key={option.id}
-                className="cursor-pointer p-2 hover:bg-gray-100"
-                onClick={() => handleAnswerClick(option.isCorrect)}
-              >
-                {option.text}
-              </li>
-            ))}
-          </ul>
+      <Navigation />
+      <div className="container mx-auto px-5 py-2 lg:px-32 lg:pt-12 mb-60">
+        {!showResults ? (
+          <div>
+            <h1 className="text-3xl font-bold mb-4">Quiz</h1>
+            <div className="p-4 rounded-lg border-2 border-purple-500">
+              <p className="mb-4">{currentQuestionData.text}</p>
+              <ul className="divide-y divide-gray-300">
+                {currentQuestionData.options.map((option) => (
+                  <li
+                    key={option.id}
+                    className="cursor-pointer p-2 hover:bg-gray-100 hover:text-black"
+                    onClick={() => handleAnswerClick(option.isCorrect)}
+                  >
+                    {option.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="text-center border border-purple-500 p-8 rounded-lg max-w-xl mx-auto">
-          <h1 className="text-3xl font-bold mb-6">Results</h1>
-          <p>You scored {score} out of 5</p>
-          <p>Play again?</p>
-          <button
-            className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-purple-600 "
-            onClick={() => window.location.reload()}
-          >
-            Restart
-          </button>
-        </div>
-      )}
-    </div>
-    <Footer/>
+        ) : (
+          <div className="text-center border border-purple-500 p-8 rounded-lg max-w-xl mx-auto">
+            <h1 className="text-3xl font-bold mb-6">Results</h1>
+            <p>You scored {score} out of 5</p>
+            <p>Play again?</p>
+            <button
+              className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-purple-600 "
+              onClick={() => window.location.reload()}
+            >
+              Restart
+            </button>
+          </div>
+        )}
+      </div>
+      <Footer />
     </>
   );
 }
