@@ -98,25 +98,26 @@ export default function Quiz() {
                     selectedAnswer.isCorrect &&
                     selectedAnswer.id === option.id;
 
+                    
+
                   return (
                     <li
                       key={option.id}
                       className={`cursor-pointer p-2 
                       ${
                         isWrongOption
-                          ? "bg-red-500 text-white"
-                          : "hover:bg-gray-100 hover:text-black"
-                      } 
-                      ${
+                        ? "bg-red-500 text-white"
+                        : isSelectedCorrectOption 
+                        ? "bg-green-500 text-white" 
+                        : "hover:bg-gray-100 hover:text-black"
+                    } 
+                    ${
                         isCorrectOption &&
                         selectedAnswer &&
                         !selectedAnswer.isCorrect
-                          ? "bg-green-500 text-white"
-                          : ""
-                      }
-                      ${
-                        isSelectedCorrectOption ? "bg-green-500 text-white" : ""
-                      }`}
+                        ? "bg-green-500 text-white"
+                        : ""
+                    }`}
                       onClick={() => handleAnswerClick(option)}
                     >
                       {option.text}
