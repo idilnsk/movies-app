@@ -1,13 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
 import useWatchlistStore from "../store/watchlistStore";
-import icon from "../public/default-movie-poster.jpg";
+import { useState } from "react";
 
 export default function MovieCard({ movie, inWatchlist }) {
   const [isInWatchlist, setIsInWatchlist] = useState(inWatchlist);
   const { addToWatchlist, removeFromWatchlist } = useWatchlistStore();
   const { original_title, poster_path, id } = movie;
+
+
+  
 
   const handleAddToWatchlist = async () => {
     try {
@@ -62,26 +64,24 @@ export default function MovieCard({ movie, inWatchlist }) {
   console.log("HOMEPAGE");
   return (
     <div className="group">
-      <div className="relative rounded-lg overflow-hidden w-[200px] h-[300px]">
+      <div className="relative rounded-lg overflow-hidden">
         <Link href={`/movie-detail/${id}/${original_title}`}>
           {poster_path && (
             <Image
-              fill
-              style={{ objectFit: "cover" }}
               src={`https://image.tmdb.org/t/p/w500${poster_path}`}
+              width={200}
+              height={300}
               alt="Movie Poster"
             />
           )}
           {!poster_path && (
-            <div className="w-[200px] h-[245px]">
-              <Image
-                fill
-                style={{ objectFit: "cover" }}
-                src={icon}
-                alt="Movie Poster"
-                className=" rounded-lg"
-              />
-            </div>
+            <Image
+              src={`/next.svg`}
+              width={200}
+              height={300}
+              alt="Movie Poster"
+              className=" rounded-lg"
+            />
           )}
         </Link>
         <div

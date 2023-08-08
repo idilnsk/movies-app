@@ -4,28 +4,32 @@ import SearchBar from "./SearchBar";
 import useMovieStore from "../store/movieStore";
 import { useEffect } from "react";
 import useWatchlistStore from "../store/watchlistStore";
+import useSWR, { mutate } from "swr";
 
 export default function MovieList({ onPageClick, totalResults }) {
   const { movies, currentPage, setMovies } = useMovieStore();
-  const { watchlist, setWatchlist } = useWatchlistStore();  // Use Zustand store
+  const { watchlist, setWatchlist } = useWatchlistStore(); // Use Zustand store
 
   const handleSearchSubmit = async (searchBarData) => {
     console.log("SearchBar Data:", searchBarData);
     setMovies(searchBarData.results);
   };
+  const fetcher = async (url) => {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error("Error fetching watchlist");
+    return res.json();
+  };
+  const { data, error } = useSWR("/api/watchlist", fetcher);
+
   useEffect(() => {
-    const fetchWatchlist = async () => {
-      const res = await fetch("/api/watchlist");
-      if (res.ok) {
-        const list = await res.json();
-        setWatchlist([...list]);
-      } else {
-        // Set the default value to an empty array if the fetch fails
-        setWatchlist([]);
-      }
-    };
-    fetchWatchlist();
-  }, [movies, setWatchlist]);
+    if (data) {
+      setWatchlist([...data]);
+    } else if (error) {
+      setWatchlist([]);
+    }
+  }, [data, error, setWatchlist]);
+ 
+
   console.log("watchlist:", watchlist);
   return (
     <div>

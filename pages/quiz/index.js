@@ -2,12 +2,12 @@ import useSWR from "swr";
 import useQuizStore from "../../store/quizStore";
 import Navigation from "../navigation/Index";
 import Footer from "@/movies-app/Footer";
+import { useEffect } from "react";
 
 export default function Quiz() {
   const fetcher = (url) => fetch(url).then((r) => r.json());
-  const { data: questions, error, isLoading } = useSWR("/api/quiz", fetcher);
+  const { data: questions } = useSWR("/api/quiz", fetcher);
 
-  //setQuestions(questions);
   const {
     currentQuestionIndex,
     setCurrentQuestionIndex,
@@ -17,44 +17,59 @@ export default function Quiz() {
     setShowResults,
     setShuffledQuestions,
     setQuestions,
+    shuffledQuestions,
+    resetQuiz,
+    setSelectedAnswer,
+    selectedAnswer,
+    clearSelectedAnswer,
   } = useQuizStore();
 
-  //setQuestionsIndex(questions);
-
-  /*  useEffect(() => {
-    if (questions) {
+  useEffect(() => {
+    if (questions && shuffledQuestions.length === 0) {
       setQuestions(questions);
-      setShuffledQuestions(shuffleQuestions(questions));
+      const shuffled = shuffleQuestions(questions);
+      setShuffledQuestions(shuffled);
     }
-  }, [questions, setShuffledQuestions, setQuestions]); */
+  }, [questions]);
 
   const shuffleQuestions = (questions) => {
-    const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
-    return shuffledQuestions.slice(0, 5); // Select the first 5 questions
+    {
+      let array = [...questions]; // copy the questions
+      let currentIndex = array.length,
+        randomIndex;
+  
+      while (currentIndex !== 0) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+  
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex],
+        ];
+      }
+  
+      return array.slice(0, 5);
+    };
   };
 
-  if (isLoading) {
-    return <div>is loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching data...</div>;
-  }
-  console.log("questions:", questions);
-  const handleAnswerClick = (isCorrect) => {
-    if (isCorrect) {
-      incrementScore();
-    }
-
-    if (currentQuestionIndex === 4) {
-      setShowResults(true);
-    } else {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
+  const handleAnswerClick = (option) => {
+    setSelectedAnswer(option);
+    setTimeout(() => {
+      clearSelectedAnswer();
+      if (option.isCorrect) incrementScore();
+      if (currentQuestionIndex === 4) {
+        setShowResults(true);
+      } else {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      }
+    }, 1000);
   };
-
-  const shuffledQuestions = shuffleQuestions(questions);
-  const currentQuestionData = shuffledQuestions[currentQuestionIndex];
+  const currentQuestionData = shuffledQuestions?.[currentQuestionIndex];
+  console.log("currentQuestionData:",currentQuestionData);
+    if (!currentQuestionData) return <div>Loading questions...</div>;
+    
 
   return (
     <>
@@ -66,15 +81,24 @@ export default function Quiz() {
             <div className="p-4 rounded-lg border-2 border-purple-500">
               <p className="mb-4">{currentQuestionData.text}</p>
               <ul className="divide-y divide-gray-300">
-                {currentQuestionData.options.map((option) => (
-                  <li
-                    key={option.id}
-                    className="cursor-pointer p-2 hover:bg-gray-100 hover:text-black"
-                    onClick={() => handleAnswerClick(option.isCorrect)}
-                  >
-                    {option.text}
-                  </li>
-                ))}
+                {currentQuestionData.options.map((option) => {
+                  const isCorrectOption = option.isCorrect;
+                  const isWrongOption = selectedAnswer && !selectedAnswer.isCorrect && selectedAnswer.id === option.id;
+                  const isSelectedCorrectOption = selectedAnswer && selectedAnswer.isCorrect && selectedAnswer.id === option.id;
+
+                  return (
+                    <li
+                      key={option.id}
+                      className={`cursor-pointer p-2 
+                      ${isWrongOption ? 'bg-red-500 text-white' : 'hover:bg-gray-100 hover:text-black'} 
+                      ${isCorrectOption && selectedAnswer && !selectedAnswer.isCorrect ? 'bg-green-500 text-white' : ''}
+                      ${isSelectedCorrectOption ? 'bg-green-500 text-white' : ''}`}
+                      onClick={() => handleAnswerClick(option)}
+                    >
+                      {option.text}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
@@ -82,10 +106,9 @@ export default function Quiz() {
           <div className="text-center border border-purple-500 p-8 rounded-lg max-w-xl mx-auto">
             <h1 className="text-3xl font-bold mb-6">Results</h1>
             <p>You scored {score} out of 5</p>
-            <p>Play again?</p>
             <button
-              className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-purple-600 "
-              onClick={() => window.location.reload()}
+              className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-purple-600"
+              onClick={resetQuiz}
             >
               Restart
             </button>
