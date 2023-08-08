@@ -3,10 +3,13 @@ import useQuizStore from "../../store/quizStore";
 import Navigation from "../navigation/Index";
 import Footer from "@/movies-app/Footer";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Quiz() {
   const fetcher = (url) => fetch(url).then((r) => r.json());
   const { data: questions } = useSWR("/api/quiz", fetcher);
+
+  const router = useRouter();
 
   const {
     currentQuestionIndex,
@@ -24,6 +27,10 @@ export default function Quiz() {
     clearSelectedAnswer,
   } = useQuizStore();
 
+  const resetQuizz = () => {
+    router.reload();
+  };
+
   useEffect(() => {
     if (questions && shuffledQuestions.length === 0) {
       setQuestions(questions);
@@ -37,21 +44,21 @@ export default function Quiz() {
       let array = [...questions]; // copy the questions
       let currentIndex = array.length,
         randomIndex;
-  
+
       while (currentIndex !== 0) {
         // Pick a remaining element...
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
-  
+
         // And swap it with the current element.
         [array[currentIndex], array[randomIndex]] = [
           array[randomIndex],
           array[currentIndex],
         ];
       }
-  
+
       return array.slice(0, 5);
-    };
+    }
   };
 
   const handleAnswerClick = (option) => {
@@ -67,9 +74,8 @@ export default function Quiz() {
     }, 1000);
   };
   const currentQuestionData = shuffledQuestions?.[currentQuestionIndex];
-  console.log("currentQuestionData:",currentQuestionData);
-    if (!currentQuestionData) return <div>Loading questions...</div>;
-    
+  console.log("currentQuestionData:", currentQuestionData);
+  if (!currentQuestionData) return <div>Loading questions...</div>;
 
   return (
     <>
@@ -83,16 +89,34 @@ export default function Quiz() {
               <ul className="divide-y divide-gray-300">
                 {currentQuestionData.options.map((option) => {
                   const isCorrectOption = option.isCorrect;
-                  const isWrongOption = selectedAnswer && !selectedAnswer.isCorrect && selectedAnswer.id === option.id;
-                  const isSelectedCorrectOption = selectedAnswer && selectedAnswer.isCorrect && selectedAnswer.id === option.id;
+                  const isWrongOption =
+                    selectedAnswer &&
+                    !selectedAnswer.isCorrect &&
+                    selectedAnswer.id === option.id;
+                  const isSelectedCorrectOption =
+                    selectedAnswer &&
+                    selectedAnswer.isCorrect &&
+                    selectedAnswer.id === option.id;
 
                   return (
                     <li
                       key={option.id}
                       className={`cursor-pointer p-2 
-                      ${isWrongOption ? 'bg-red-500 text-white' : 'hover:bg-gray-100 hover:text-black'} 
-                      ${isCorrectOption && selectedAnswer && !selectedAnswer.isCorrect ? 'bg-green-500 text-white' : ''}
-                      ${isSelectedCorrectOption ? 'bg-green-500 text-white' : ''}`}
+                      ${
+                        isWrongOption
+                          ? "bg-red-500 text-white"
+                          : "hover:bg-gray-100 hover:text-black"
+                      } 
+                      ${
+                        isCorrectOption &&
+                        selectedAnswer &&
+                        !selectedAnswer.isCorrect
+                          ? "bg-green-500 text-white"
+                          : ""
+                      }
+                      ${
+                        isSelectedCorrectOption ? "bg-green-500 text-white" : ""
+                      }`}
                       onClick={() => handleAnswerClick(option)}
                     >
                       {option.text}
@@ -108,7 +132,7 @@ export default function Quiz() {
             <p>You scored {score} out of 5</p>
             <button
               className="px-4 py-2 mt-4 text-white bg-blue-500 rounded hover:bg-purple-600"
-              onClick={resetQuiz}
+              onClick={resetQuizz}
             >
               Restart
             </button>
